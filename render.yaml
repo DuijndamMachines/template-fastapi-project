@@ -1,0 +1,25 @@
+# Exported from Render on 2026-04-29T09:21:47Z
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: testing
+    services:
+    - type: web
+      name: Testing-2
+      runtime: python
+      repo: https://github.com/DuijndamMachines/Testing
+      plan: free
+      region: frankfurt
+      buildCommand: pip install -r requirements.txt
+      startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+      autoDeployTrigger: commit
+    - type: web
+      name: Render-Test
+      runtime: docker
+      repo: https://github.com/DuijndamMachines/Render-Test
+      plan: free
+      region: frankfurt
+      dockerContext: .
+      dockerfilePath: ./Dockerfile
+      autoDeployTrigger: commit
